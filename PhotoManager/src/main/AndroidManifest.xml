@@ -1,0 +1,38 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.english.storm.photo">
+
+    <application android:label="@string/app_name">
+
+        <activity
+            android:name="com.english.storm.photo.activity.SelectSinglePhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="com.english.storm.photo.activity.CropPortraitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+        <activity
+            android:name="com.english.storm.photo.activity.SelectManyPhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+        <!--android:theme="@style/IMTheme.Transparent"-->
+        <activity
+            android:name="com.english.storm.photo.activity.PreviewPhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Fullscreen.Transparent" />
+
+        <activity
+            android:name="com.english.storm.photo.activity.BigImageBaseActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/Fullscreen.Transparent" />
+
+    </application>
+
+
+</manifest>

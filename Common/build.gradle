@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation 'com.alibaba:fastjson:1.1.67.android'
+    implementation "com.github.bumptech.glide:okhttp3-integration:$rootProject.glideVersion"
+    //https://github.com/bumptech/glide
+    implementation project(':Glide')
+    //https://github.com/Yalantis/uCrop
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+
+    implementation 'com.alibaba:fastjson:1.1.67.android'
+
+
+
+//    implementation 'com.github.thinkcool:circletextimageview:1.0.20151218'
+
+    //https://github.com/CoolThink/CircleTextImageView
+//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+
+
+}
