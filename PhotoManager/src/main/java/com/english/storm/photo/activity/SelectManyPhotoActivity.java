@@ -25,8 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.english.storm.common.activity.BaseActivity;
-import com.english.storm.common.manager.PermissionManager;
 import com.english.storm.dialog.BottomSlideDialog;
 import com.english.storm.photo.PhotoConstants;
 import com.english.storm.photo.R;
@@ -34,6 +32,7 @@ import com.english.storm.photo.adapter.SelectBigImageAdapter;
 import com.english.storm.photo.adapter.SelectManyPhotoGridAdapter;
 import com.english.storm.photo.entity.SelectImage;
 import com.english.storm.photo.listener.SelectPhotoClickListener;
+import com.storm.common.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

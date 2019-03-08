@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,20 +63,20 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
     }
 
-//    /**
-//     * 用户权限 申请 的回调方法
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        switch (requestCode) {
-//            case PermissionManager.REQUEST_CODE:
-//                mPermissionManager.onRequestPermissionsResult(this, grantResults);
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    /**
+     * 用户权限 申请 的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PermissionManager.REQUEST_CODE:
+                mPermissionManager.onRequestPermissionsResult(this, grantResults);
+                break;
+            default:
+                break;
+        }
+    }
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.english.storm.common.util.ScreenUtils;
 import com.english.storm.dialog.manager.ConfirmationDialogManager;
 import com.english.storm.photo.PhotoConstants;
 import com.english.storm.photo.R;
+import com.storm.common.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
@@ -105,6 +105,7 @@ public class PreviewPhotoActivity extends BigImageBaseActivity implements View.O
         };
 
         if (dialogFactory == null) {
+            //TODO
             dialogFactory = new ConfirmationDialogManager(this, listener, "确定删除这张照片吗?");
         }
         dialogFactory.showDialog();

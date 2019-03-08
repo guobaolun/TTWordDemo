@@ -14,10 +14,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.english.storm.common.activity.BaseActivity;
 import com.english.storm.photo.R;
+import com.storm.common.activity.BaseActivity;
 import com.yalantis.ucrop.callback.BitmapCropCallback;
-import com.yalantis.ucrop.callback.OnBitmapLoadListener;
 import com.yalantis.ucrop.model.ExifInfo;
 import com.yalantis.ucrop.view.GestureCropImageView;
 import com.yalantis.ucrop.view.OverlayView;
@@ -26,7 +25,7 @@ import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;
 
-public class CropPortraitActivity extends BaseActivity {
+public class CropPortraitActivity extends BaseActivity implements View.OnClickListener {
 
 
     public static final String IMAGE_PATH = "imagePath";
@@ -69,7 +68,9 @@ public class CropPortraitActivity extends BaseActivity {
         mOverlayView = mUCropView.getOverlayView();
 
         mGestureCropImageView.setTransformImageListener(mImageListener);
-        mGestureCropImageView.setOnBitmapLoadListener(new MyOnBitmapLoadListener());
+
+        //TODO
+//        mGestureCropImageView.setOnBitmapLoadListener(new MyOnBitmapLoadListener());
 
     }
 
@@ -149,35 +150,35 @@ public class CropPortraitActivity extends BaseActivity {
     }
 
 
-    class MyOnBitmapLoadListener implements OnBitmapLoadListener {
-
-        @Override
-        public void onBitmapLoaded(@NonNull final Bitmap bitmap, @NonNull ExifInfo exifInfo, @NonNull String imageInputPath, @Nullable String imageOutputPath) {
-            final float width = bitmap.getWidth();
-            final float height = bitmap.getHeight();
-
-            ViewTreeObserver vto2 = mGestureCropImageView.getViewTreeObserver();
-            vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    float imageViewHeight = mGestureCropImageView.getHeight();
-                    float imageViewWidth = mGestureCropImageView.getWidth();
-                    if (width / imageViewWidth < height / imageViewHeight) {
-                        mGestureCropImageView.zoomInImage(imageViewHeight / height);
-                    } else {
-                        mGestureCropImageView.zoomInImage(imageViewWidth / width);
-                    }
-                }
-            });
-
-
-        }
-
-        @Override
-        public void onFailure(@NonNull Exception bitmapWorkerException) {
-
-        }
-    }
+//    class MyOnBitmapLoadListener implements OnBitmapLoadListener {
+//
+//        @Override
+//        public void onBitmapLoaded(@NonNull final Bitmap bitmap, @NonNull ExifInfo exifInfo, @NonNull String imageInputPath, @Nullable String imageOutputPath) {
+//            final float width = bitmap.getWidth();
+//            final float height = bitmap.getHeight();
+//
+//            ViewTreeObserver vto2 = mGestureCropImageView.getViewTreeObserver();
+//            vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    float imageViewHeight = mGestureCropImageView.getHeight();
+//                    float imageViewWidth = mGestureCropImageView.getWidth();
+//                    if (width / imageViewWidth < height / imageViewHeight) {
+//                        mGestureCropImageView.zoomInImage(imageViewHeight / height);
+//                    } else {
+//                        mGestureCropImageView.zoomInImage(imageViewWidth / width);
+//                    }
+//                }
+//            });
+//
+//
+//        }
+//
+//        @Override
+//        public void onFailure(@NonNull Exception bitmapWorkerException) {
+//
+//        }
+//    }
 
 
     private TransformImageView.TransformImageListener mImageListener = new TransformImageView.TransformImageListener() {
@@ -230,7 +231,6 @@ public class CropPortraitActivity extends BaseActivity {
             @Override
             public void onCropFailure(@NonNull Throwable t) {
 //                setResultError(t);
-                System.out.println("ttttttt   "+t.getMessage());
                 Toast.makeText(getApplicationContext(), "裁剪失败", Toast.LENGTH_SHORT).show();
 //                finish();
             }
