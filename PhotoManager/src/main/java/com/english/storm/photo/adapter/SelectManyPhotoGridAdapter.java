@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-import com.english.storm.common.util.ScreenUtils;
 import com.english.storm.glide.GlideUtils;
 import com.english.storm.photo.R;
 import com.english.storm.photo.entity.SelectImage;
 import com.english.storm.photo.listener.SelectPhotoClickListener;
+import com.storm.common.utils.ScreenUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,8 +81,8 @@ public class SelectManyPhotoGridAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_photo, null);
             holder = new ViewHolder();
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageview);
-            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+            holder.imageView = convertView.findViewById(R.id.imageview);
+            holder.checkbox = convertView.findViewById(R.id.checkbox);
 
             RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) holder.imageView.getLayoutParams();
             itemParams.height = (ScreenUtils.getScreenWidth(context) - ScreenUtils.dip2px(context, 8)) / 3;//
@@ -100,7 +100,7 @@ public class SelectManyPhotoGridAdapter extends BaseAdapter {
         holder.checkbox.setChecked(imageList.get(position).isChecked());
         int num = imageList.get(position).getNum();
         if (num > 0) {
-            holder.checkbox.setText(num + "");
+            holder.checkbox.setText(String.valueOf(num));
         } else {
             holder.checkbox.setText("");
         }

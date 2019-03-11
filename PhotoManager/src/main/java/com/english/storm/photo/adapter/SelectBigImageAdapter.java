@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-import com.english.storm.common.util.ScreenUtils;
 import com.english.storm.glide.GlideUtils;
 import com.english.storm.photo.R;
 import com.english.storm.photo.entity.SelectImage;
+import com.storm.common.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
@@ -52,16 +52,14 @@ public class SelectBigImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = View.inflate(context, R.layout.item_big_image, null);
-        ImageView mImageView = (ImageView) view.findViewById(R.id.imageview);
+        ImageView imageView = view.findViewById(R.id.imageview);
 
-
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mImageView.getLayoutParams();
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         lp.height = ScreenUtils.getScreenHeight(context);
         lp.width = ScreenUtils.getScreenWidth(context);
-        mImageView.setLayoutParams(lp);
+        imageView.setLayoutParams(lp);
 
-
-        GlideUtils.loadAsBitmap(context, imageList.get(position % imageList.size()).getPath(), mImageView, 0, 0);
+        GlideUtils.loadAsBitmap(context, imageList.get(position % imageList.size()).getPath(), imageView, 0, 0);
         container.addView(view);
         return view;
     }

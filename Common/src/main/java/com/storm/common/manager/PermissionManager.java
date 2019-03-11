@@ -1,7 +1,5 @@
 package com.storm.common.manager;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,7 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class PermissionManager {
 
 //    private static String[] permissions = {
@@ -29,8 +26,8 @@ public class PermissionManager {
 //    };
 
     private static final String PERMISSIONS_DATA = "permissions";
-    private static final int REQUEST_CODE = 1001;
-    private static final int RESULT_CODE = 1002;
+    private static final int REQUEST_CODE = 1201;
+    private static final int RESULT_CODE = 1202;
 
 
     private AlertDialog dialog;
@@ -38,7 +35,7 @@ public class PermissionManager {
     private PermissionCallback mCallback;
 
 
-    public void checkPermission(Activity activity, String[] permissions,PermissionCallback mCallback) {
+    public void checkPermission(Activity activity, String[] permissions, PermissionCallback mCallback) {
         this.mCallback = mCallback;
 
         createDialog(activity, permissions);
@@ -71,7 +68,7 @@ public class PermissionManager {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 跳转到应用设置界面
-                        goToAppSetting(activity,permissions);
+                        goToAppSetting(activity, permissions);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -121,6 +118,8 @@ public class PermissionManager {
                     return;
                 } else {
                     if (position == permissions.length) {
+                        Toast.makeText(activity, grantResults.toString(), Toast.LENGTH_LONG).show();
+                        System.out.println("--------grantResults.toString()--------" + grantResults.toString());
                         showDialog();
                     }
                 }
@@ -133,11 +132,10 @@ public class PermissionManager {
 
     }
 
-    protected void onActivityResult(Context context, int requestCode, int resultCode, Intent data) {
-        if (requestCode != REQUEST_CODE) {
+    public void onActivityResult(Context context, int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQUEST_CODE && resultCode != Activity.RESULT_OK) {
             return;
         }
-
 
         String[] permissions = data.getStringArrayExtra(PERMISSIONS_DATA);
 
@@ -163,20 +161,16 @@ public class PermissionManager {
         }
 
 
-
-
-
-
     }
 
 
     // 跳转到当前应用的设置界面
-    private void goToAppSetting(Activity activity,String[] permissions) {
+    private void goToAppSetting(Activity activity, String[] permissions) {
         Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(uri);
-        intent.putExtra(PERMISSIONS_DATA,permissions);
+        intent.putExtra(PERMISSIONS_DATA, permissions);
         activity.startActivityForResult(intent, RESULT_CODE);
     }
 

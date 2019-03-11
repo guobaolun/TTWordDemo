@@ -29,18 +29,10 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.67.android'
     implementation "com.github.bumptech.glide:okhttp3-integration:$rootProject.glideVersion"
     //https://github.com/bumptech/glide
-    implementation project(':Glide')
-
-
     implementation 'com.alibaba:fastjson:1.1.67.android'
-
-
-
-//    implementation 'com.github.thinkcool:circletextimageview:1.0.20151218'
-
+    api project(':Glide')
+    api project(':Widget')
+    //    implementation 'com.github.thinkcool:circletextimageview:1.0.20151218'
     //https://github.com/CoolThink/CircleTextImageView
-//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
-
-
+    //    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

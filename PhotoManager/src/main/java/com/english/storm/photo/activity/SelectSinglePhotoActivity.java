@@ -24,11 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.english.storm.common.activity.BaseActivity;
-import com.english.storm.common.manager.PermissionManager;
-import com.english.storm.common.util.ScreenUtils;
 import com.english.storm.glide.GlideUtils;
 import com.english.storm.photo.R;
+import com.storm.common.activity.BaseActivity;
+import com.storm.common.manager.PermissionManager;
+import com.storm.common.utils.ScreenUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,10 +55,13 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
         super.onCreate(savedInstanceState);
 
 
+        String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+        };
 
-        MyPermissionCallback mPermissionCallback = new MyPermissionCallback();
-        mPermissionManager.setCallback(mPermissionCallback);
-        mPermissionManager.checkPermission( this,Manifest.permission.READ_EXTERNAL_STORAGE);
+        mPermissionManager.checkPermission(this, permissions, new MyPermissionCallback());
 
     }
 
@@ -72,16 +75,16 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
     protected void initView() {
         Intent intent = getIntent();
         String titleStr = intent.getStringExtra(TITLE);
-        ImageButton back_ib = (ImageButton) findViewById(R.id.back_ib);
+        ImageButton back_ib = findViewById(R.id.back_ib);
         back_ib.setOnClickListener(this);
-        TextView title_tv = (TextView) findViewById(R.id.title_tv);
-        if (!TextUtils.isEmpty(titleStr)){
+        TextView title_tv = findViewById(R.id.title_tv);
+        if (!TextUtils.isEmpty(titleStr)) {
             title_tv.setText(titleStr);
         }
 
-        progress = (ProgressBar) findViewById(R.id.progress);
+        progress = findViewById(R.id.progress);
 
-        gridview = (GridView) findViewById(R.id.gridview);
+        gridview = findViewById(R.id.gridview);
         mAdapter = new MyBaseAdapter();
         gridview.setAdapter(mAdapter);
         mItemClickListener = new MyOnItemClickListener();
@@ -138,10 +141,9 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
             Intent intent = new Intent();
             intent.putExtra(CropPortraitActivity.IMAGE_PATH, mPathList.get(position));
             intent.setClass(getApplicationContext(), CropPortraitActivity.class);
-            startActivityForResult(intent,CROP_PORTRAIT);
+            startActivityForResult(intent, CROP_PORTRAIT);
         }
     }
-
 
 
     class MyBaseAdapter extends BaseAdapter {
@@ -176,7 +178,7 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
             if (convertView == null) {
                 convertView = View.inflate(getApplicationContext(), R.layout.item_photo, null);
                 holder = new ViewHolder();
-                holder.imageView = (ImageView) convertView.findViewById(R.id.imageview);
+                holder.imageView = convertView.findViewById(R.id.imageview);
 
                 RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) holder.imageView.getLayoutParams();
                 itemParams.height = (ScreenUtils.getScreenWidth(getApplicationContext()) - ScreenUtils.dip2px(getApplicationContext(), 8)) / 3;//
@@ -188,7 +190,7 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
 
             File file = new File(pathList.get(position));
 
-            GlideUtils.loadAsBitmap(getApplicationContext(),file,holder.imageView,0,0);
+            GlideUtils.loadAsBitmap(getApplicationContext(), file, holder.imageView, 0, 0);
             return convertView;
         }
 
@@ -222,7 +224,6 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
         });
 
 
-
     }
 
 
@@ -231,7 +232,7 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CROP_PORTRAIT:
-                setResult(resultCode,data);
+                setResult(resultCode, data);
                 finish();
                 break;
             default:
@@ -248,9 +249,11 @@ public class SelectSinglePhotoActivity extends BaseActivity implements View.OnCl
         }
 
         @Override
-        public void refuse() {
+        public void refuse(String permission) {
             finish();
+
         }
+
     }
 
 

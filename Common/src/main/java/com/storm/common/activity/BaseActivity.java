@@ -11,19 +11,22 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.storm.common.BaseApplication;
+import com.storm.common.manager.PermissionManager;
 import com.storm.common.statusbar.StatusBarUtil;
 
 
-public abstract class BaseActivity extends AppCompatActivity  {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected boolean isRunning = false;
+
+    protected PermissionManager mPermissionManager;
 
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
 
-        StatusBarUtil.setRootViewFitsSystemWindows(this,false);
+        StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         //设置状态栏透明
         StatusBarUtil.setTranslucentStatus(this);
         //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
@@ -31,9 +34,10 @@ public abstract class BaseActivity extends AppCompatActivity  {
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
             //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
             //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this,0x55000000);
+            StatusBarUtil.setStatusBarColor(this, 0x55000000);
         }
 
+        mPermissionManager = new PermissionManager();
         BaseApplication application = (BaseApplication) getApplication();
         application.addActivity(this);
 
@@ -69,29 +73,14 @@ public abstract class BaseActivity extends AppCompatActivity  {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PermissionManager.REQUEST_CODE:
-                mPermissionManager.onRequestPermissionsResult(this, grantResults);
-                break;
-            default:
-                break;
-        }
+        mPermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//
-//        //检查权限
-//        switch (requestCode) {
-//            case PermissionManager.RESULT_CODE:
-//                mPermissionManager.onActivityResult(this);
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPermissionManager.onActivityResult(this, requestCode, resultCode, data);
+    }
 
 
     public void showToast(String msg) {

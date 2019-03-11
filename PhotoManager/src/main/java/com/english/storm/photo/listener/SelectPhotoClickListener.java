@@ -35,22 +35,22 @@ public class SelectPhotoClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-
         CheckBox checkBox = (CheckBox) v;
         boolean isChecked = checkBox.isChecked();
 
         if (isChecked && adapter.getSelectList().size() >= 9) {
             Toast.makeText(context, "最多选择9张照片", Toast.LENGTH_SHORT).show();
-            checkBox.setChecked(!isChecked);
+            checkBox.setChecked(false);
             return;
         }
+
         adapter.getImageList().get(position).setChecked(isChecked);
 
         if (isChecked) {
             adapter.getSelectList().add(adapter.getImageList().get(position).getPath());
             adapter.getImageList().get(position).setNum(adapter.getSelectList().size());
             adapter.getSelectPositionList().add(position);
-            checkBox.setText(adapter.getSelectList().size()+"");
+            checkBox.setText(String.valueOf(adapter.getSelectList().size()));
         } else {
             checkBox.setText("");
             adapter.getImageList().get(position).setNum(0);

@@ -77,14 +77,9 @@ public class BigImageBaseActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-
         topRl = findViewById(R.id.top_rl);
         mTextView = findViewById(R.id.textview);
-
         mViewPager = findViewById(R.id.viewpager);
-
-
     }
 
 
@@ -106,7 +101,7 @@ public class BigImageBaseActivity extends BaseActivity {
     public void finishImageView() {
 
         View view = mPagerAdapter.getPrimaryItem();
-        TouchImageView imageView = (TouchImageView) view.findViewById(R.id.imageview);
+        TouchImageView imageView = view.findViewById(R.id.imageview);
         if (imageView != null) {
             if (imageView.getDrawable().getIntrinsicHeight() == -1) {
                 finish();
@@ -172,13 +167,14 @@ public class BigImageBaseActivity extends BaseActivity {
         }
 
 
+        @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
             View view = View.inflate(BigImageBaseActivity.this, R.layout.item_big_image, null);
-            final TouchImageView imageView =  view.findViewById(R.id.imageview);
+            final TouchImageView imageView = view.findViewById(R.id.imageview);
 
-            CircleProgressView progressView =  view.findViewById(R.id.progressView);
+            CircleProgressView progressView = view.findViewById(R.id.progressView);
             progressView.setVisibility(View.VISIBLE);
 
             ImageLocationInfo imageLocationInfo = mImageInfoList.get(position % mImageInfoList.size());

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.ArrayList;
+
 
 public class NetUtils {
 
@@ -24,6 +26,28 @@ public class NetUtils {
      * @return true 有,false 无
      */
     public boolean isNetworkConnected(Context context) {
+
+        ArrayList<String> list = new ArrayList<>();
+
+
+        for (int i = 1; i <= 10; i++) {
+            list.add(String.valueOf(i));
+        }
+
+        int i = 1;
+
+
+        while (list.size() > 1) {
+            //System.out.println("i = "+i+"  "+i%6);
+            if (i % 6 == 0) {
+                list.remove(i % 10);
+            }
+
+            ++i;
+        }
+        System.out.println("last = " + list.toString());
+
+
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (mConnectivityManager != null) {

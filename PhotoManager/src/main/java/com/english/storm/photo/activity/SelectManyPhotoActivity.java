@@ -33,6 +33,7 @@ import com.english.storm.photo.adapter.SelectManyPhotoGridAdapter;
 import com.english.storm.photo.entity.SelectImage;
 import com.english.storm.photo.listener.SelectPhotoClickListener;
 import com.storm.common.activity.BaseActivity;
+import com.storm.common.manager.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,11 +63,13 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
         mSelectImgList = getIntent().getStringArrayListExtra(PhotoConstants.IMAGE_SELECT_LIST);
         mSelectPositionList = getIntent().getIntegerArrayListExtra(PhotoConstants.IMAGE_POSITION_LIST);
 
+        String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+        };
 
-
-        MyPermissionCallback mPermissionCallback = new MyPermissionCallback();
-        mPermissionManager.setCallback(mPermissionCallback);
-        mPermissionManager.checkPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE);
+        mPermissionManager.checkPermission(this, permissions, new MyPermissionCallback());
 
     }
 
@@ -76,21 +79,20 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
     }
 
 
-
     @Override
     protected void initView() {
 
         rootview = findViewById(R.id.rootview);
-        ImageButton back_ib = (ImageButton) findViewById(R.id.back_ib);
+        ImageButton back_ib = findViewById(R.id.back_ib);
         back_ib.setOnClickListener(this);
 
-        ok_bt = (Button) findViewById(R.id.ok_bt);
+        ok_bt = findViewById(R.id.ok_bt);
         ok_bt.setVisibility(View.VISIBLE);
         ok_bt.setOnClickListener(this);
 
-        progress = (ProgressBar) findViewById(R.id.progress);
+        progress = findViewById(R.id.progress);
 
-        gridview = (GridView) findViewById(R.id.gridview);
+        gridview = findViewById(R.id.gridview);
         mGridAdapte = new SelectManyPhotoGridAdapter(getApplicationContext(), ok_bt);
 
         gridview.setAdapter(mGridAdapte);
@@ -157,10 +159,10 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
 
         if (pagerDialog == null) {
             View view = View.inflate(getApplicationContext(), R.layout.dialog_big_pager, null);
-            viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-            TextView pageText = (TextView) view.findViewById(R.id.textview);
-            ImageView cancel_iv = (ImageView) view.findViewById(R.id.cancel_iv);
-            checkbox = (CheckBox) view.findViewById(R.id.checkbox);
+            viewPager = view.findViewById(R.id.viewpager);
+            TextView pageText = view.findViewById(R.id.textview);
+            ImageView cancel_iv = view.findViewById(R.id.cancel_iv);
+            checkbox = view.findViewById(R.id.checkbox);
             cancel_iv.setOnClickListener(this);
             pagerAdapter = new SelectBigImageAdapter(getApplicationContext());
             viewPager.setAdapter(pagerAdapter);
@@ -238,9 +240,7 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
         });
 
 
-
     }
-
 
 
     class MyOnItemClickListener implements AdapterView.OnItemClickListener {
@@ -261,9 +261,11 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
         }
 
         @Override
-        public void refuse() {
+        public void refuse(String permission) {
             finish();
+
         }
+
     }
 
     private static class MyHandler extends Handler {

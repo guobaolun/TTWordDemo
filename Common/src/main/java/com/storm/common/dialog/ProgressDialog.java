@@ -1,15 +1,15 @@
-package com.english.storm.dialog;
+package com.storm.common.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import com.storm.common.R;
 
 
 public class ProgressDialog extends Dialog {
 
-	OnDispatchListener listener;
 	private final TextView textview;
 
 
@@ -28,22 +28,7 @@ public class ProgressDialog extends Dialog {
 		textview.setVisibility(View.VISIBLE);
 	}
 
-	public void setDispatchListener(OnDispatchListener listener) {
-		this.listener = listener;
-	}
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (listener !=null){
-			listener.onDispatch();
-		}
-		return super.dispatchKeyEvent(event);
-	}
 
 
-	public interface OnDispatchListener {
-
-		void onDispatch();
-	}
 
 }

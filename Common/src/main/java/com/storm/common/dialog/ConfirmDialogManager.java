@@ -1,4 +1,4 @@
-package com.english.storm.dialog.manager;
+package com.storm.common.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,10 +7,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.english.storm.dialog.R;
+import com.storm.common.R;
+import com.storm.common.utils.ScreenUtils;
 
 
-public class ConfirmationDialogManager implements View.OnClickListener {
+public class ConfirmDialogManager implements View.OnClickListener {
 
 
     private final Dialog mDialog;
@@ -22,14 +23,14 @@ public class ConfirmationDialogManager implements View.OnClickListener {
 
 
 
-    public ConfirmationDialogManager(Activity activity, OnClickListener listener, String text) {
+    public ConfirmDialogManager(Activity activity, OnClickListener listener, String text) {
         mActivity = activity;
         this.listener = listener;
         mDialog = new Dialog(activity, R.style.ProgressDialog);
 
-        View view = View.inflate(activity, R.layout.dialog_confirmation, null);
+        View view = View.inflate(activity, R.layout.dialog_confirm, null);
         LinearLayout layout = view.findViewById(R.id.layout);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (getScreenWidth() * 0.7), LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (ScreenUtils.getScreenWidth(activity) * 0.7), LinearLayout.LayoutParams.WRAP_CONTENT);
         layout.setLayoutParams(lp);
 
         textview = view.findViewById(R.id.textview);
@@ -72,13 +73,6 @@ public class ConfirmationDialogManager implements View.OnClickListener {
         void cancel();
     }
 
-
-    /**
-     * 得到设备屏幕的宽度
-     */
-    public int getScreenWidth() {
-        return mActivity.getResources().getDisplayMetrics().widthPixels;
-    }
 
 
 }
