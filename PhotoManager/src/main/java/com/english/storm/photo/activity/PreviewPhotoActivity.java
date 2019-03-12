@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.english.storm.dialog.manager.ConfirmDialogManager;
 import com.english.storm.photo.PhotoConstants;
 import com.english.storm.photo.R;
+import com.storm.common.dialog.ConfirmDialogManager;
 import com.storm.common.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class PreviewPhotoActivity extends BigImageBaseActivity implements View.O
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
-                    mTextView.setText((position + 1) + "/" + mImageInfoList.size());
+                    mTextView.setText(String.valueOf((position + 1) + "/" + mImageInfoList.size()));
                     mPagerAdapter.notifyDataSetChanged();
                 }
             }
@@ -105,7 +105,6 @@ public class PreviewPhotoActivity extends BigImageBaseActivity implements View.O
         };
 
         if (dialogFactory == null) {
-            //TODO
             dialogFactory = new ConfirmDialogManager(this, listener, "确定删除这张照片吗?");
         }
         dialogFactory.showDialog();

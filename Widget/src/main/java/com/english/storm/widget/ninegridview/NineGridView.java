@@ -1,5 +1,6 @@
 package com.english.storm.widget.ninegridview;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,17 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-
 import com.english.storm.widget.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NineGridView extends ViewGroup {
-    private final int SINGLE_IMAGE_MODE_RELATIVE_TO_SELF = 1;//单图显示模式:按照原图比例计算高度
+    private static final int SINGLE_IMAGE_MODE_RELATIVE_TO_SELF = 1;//单图显示模式:按照原图比例计算高度
     private final int SINGLE_IMAGE_MODE_SPECIFIED_RATIO = 2;//单图显示模式:指定宽高比例
-    private final float DEFAULTWIDTHRELATIVETOPARENT = 2 / 2.0f;//单张图片相对总可用宽度的比例
-    private float widthRatioToParent = DEFAULTWIDTHRELATIVETOPARENT;
+    private final float DEFAULT_WIDTH_RELATIVE_TO_PARENT = 2 / 2.0f;//单张图片相对总可用宽度的比例
+    private float widthRatioToParent = DEFAULT_WIDTH_RELATIVE_TO_PARENT;
     private int singleImageMode = SINGLE_IMAGE_MODE_SPECIFIED_RATIO;
 
     private static final int DEFAULT_SPACING = 2;
@@ -29,12 +28,11 @@ public class NineGridView extends ViewGroup {
     private int space = 0;
     private int gridWidth = 0;
     private int grideHeight = 0;
-    private final List<String> urls = new ArrayList<>();
+    private List<String> urls = null;
     private Context context;
     private int rows;
     private int colums;
     private float singleImageHeightRatio = 1;//单张图片相对自己宽度的比例(默认为1:和宽度相等)
-    private List<ImageView> imageViewList = new ArrayList<>();
     public interface ImageCreator {
         ImageView createImageView(Context context);
 
@@ -80,14 +78,14 @@ public class NineGridView extends ViewGroup {
     private void initView(Context context, AttributeSet attrs) {
         this.context = context;
         int defaultSpace = dp2px(context, DEFAULT_SPACING);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LGNineGrideView);
+        @SuppressLint("CustomViewStyleable") TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LGNineGrideView);
         space = (int) typedArray.getDimension(R.styleable.LGNineGrideView_space, defaultSpace);
         singleImageHeightRatio = typedArray.getFloat(R.styleable.LGNineGrideView_singleImageRatio,1);
         singleImageMode = typedArray.getInteger(R.styleable.LGNineGrideView_singleImageRatioMode, SINGLE_IMAGE_MODE_SPECIFIED_RATIO);
-        widthRatioToParent = typedArray.getFloat(R.styleable.LGNineGrideView_singleImageWidthRatioToParent, DEFAULTWIDTHRELATIVETOPARENT);
+        widthRatioToParent = typedArray.getFloat(R.styleable.LGNineGrideView_singleImageWidthRatioToParent, DEFAULT_WIDTH_RELATIVE_TO_PARENT);
         typedArray.recycle();
     }
-//646 768
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec,heightMeasureSpec);
@@ -183,7 +181,11 @@ public class NineGridView extends ViewGroup {
         this.urls.addAll(urls);
         initRowAndColum(urls.size());
         if (imageCreator == null) {
-            imageCreator = DefaultImageCreator.getInstance();
+            try {
+                throw new Exception("imageCreator is null");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         for (int i = 0; i < urls.size(); ++i) {
             String url = urls.get(i);

@@ -19,27 +19,27 @@ import java.lang.annotation.RetentionPolicy;
 
 public class CircleProgressView extends ProgressBar {
 
-    private int mReachBarSize = WidgetUtils.dip2px(getContext(), 2); // 未完成进度条大小
-    private int mNormalBarSize = WidgetUtils.dip2px(getContext(), 2); // 未完成进度条大小
+    private int mReachBarSize = dip2px(getContext(), 2); // 未完成进度条大小
+    private int mNormalBarSize = dip2px(getContext(), 2); // 未完成进度条大小
     private int mReachBarColor = Color.parseColor("#108ee9"); // 已完成进度颜色
     private int mNormalBarColor = Color.parseColor("#FFD3D6DA"); // 未完成进度颜色
-    private int mTextSize = WidgetUtils.sp2px(getContext(), 14); // 进度值字体大小
+    private int mTextSize = sp2px(getContext(), 14); // 进度值字体大小
     private int mTextColor = Color.parseColor("#108ee9"); // 进度的值字体颜色
     private float mTextSkewX; // 进度值字体倾斜角度
     private String mTextSuffix = "%"; // 进度值前缀
     private String mTextPrefix = ""; // 进度值后缀
     private boolean mTextVisible = true; // 是否显示进度值
     private boolean mReachCapRound; // 画笔是否使用圆角边界，normalStyle下生效
-    private int mRadius = WidgetUtils.dip2px(getContext(), 20); // 半径
+    private int mRadius = dip2px(getContext(), 20); // 半径
     private int mStartArc; // 起始角度
     private int mInnerBackgroundColor; // 内部背景填充颜色
     private int mProgressStyle = ProgressStyle.NORMAL; // 进度风格
-    private int mInnerPadding = WidgetUtils.dip2px(getContext(), 1); // 内部圆与外部圆间距
+    private int mInnerPadding = dip2px(getContext(), 1); // 内部圆与外部圆间距
     private int mOuterColor; // 外部圆环颜色
     private boolean needDrawInnerBackground; // 是否需要绘制内部背景
     private RectF rectF; // 外部圆环绘制区域
     private RectF rectInner; // 内部圆环绘制区域
-    private int mOuterSize = WidgetUtils.dip2px(getContext(), 1); // 外层圆环宽度
+    private int mOuterSize = dip2px(getContext(), 1); // 外层圆环宽度
     private Paint mTextPaint; // 绘制进度值字体画笔
     private Paint mNormalPaint; // 绘制未完成进度画笔
     private Paint mReachPaint; // 绘制已完成进度画笔
@@ -226,7 +226,7 @@ public class CircleProgressView extends ProgressBar {
      */
     private void drawFillInArcCircle(Canvas canvas) {
         canvas.save();
-        canvas.translate(mRealWidth / 2, mRealHeight / 2);
+        canvas.translate(mRealWidth >> 1, mRealHeight >> 1);
         // 绘制外层圆环
         canvas.drawArc(rectF, 0, 360, false, mOutPaint);
         // 绘制内层进度实心圆弧
@@ -247,7 +247,7 @@ public class CircleProgressView extends ProgressBar {
      */
     private void drawFillInCircle(Canvas canvas) {
         canvas.save();
-        canvas.translate(mRealWidth / 2, mRealHeight / 2);
+        canvas.translate(mRealWidth >> 1, mRealHeight >> 1);
         float progressY = getProgress() * 1.0f / getMax() * (mRadius * 2);
         float angle = (float) (Math.acos((mRadius - progressY) / mRadius) * 180 / Math.PI);
         float startAngle = 90 + angle;
@@ -276,10 +276,10 @@ public class CircleProgressView extends ProgressBar {
      */
     private void drawNormalCircle(Canvas canvas) {
         canvas.save();
-        canvas.translate(mRealWidth / 2, mRealHeight / 2);
+        canvas.translate(mRealWidth >> 1, mRealHeight >> 1);
         // 绘制内部圆形背景色
         if (needDrawInnerBackground) {
-            canvas.drawCircle(0, 0, mRadius - Math.min(mReachBarSize, mNormalBarSize) / 2,
+            canvas.drawCircle(0, 0, mRadius - (Math.min(mReachBarSize, mNormalBarSize) >> 1),
                     mInnerBackgroundPaint);
         }
         // 绘制文字
@@ -344,7 +344,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setReachBarSize(int reachBarSize) {
-        mReachBarSize = WidgetUtils.dip2px(getContext(), reachBarSize);
+        mReachBarSize = dip2px(getContext(), reachBarSize);
         invalidate();
     }
 
@@ -353,7 +353,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setNormalBarSize(int normalBarSize) {
-        mNormalBarSize = WidgetUtils.dip2px(getContext(), normalBarSize);
+        mNormalBarSize = dip2px(getContext(), normalBarSize);
         invalidate();
     }
 
@@ -380,7 +380,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setTextSize(int textSize) {
-        mTextSize = WidgetUtils.sp2px(getContext(), textSize);
+        mTextSize = sp2px(getContext(), textSize);
         invalidate();
     }
 
@@ -443,7 +443,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setRadius(int radius) {
-        mRadius = WidgetUtils.dip2px(getContext(), radius);
+        mRadius = dip2px(getContext(), radius);
         invalidate();
     }
 
@@ -479,7 +479,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setInnerPadding(int innerPadding) {
-        mInnerPadding = WidgetUtils.dip2px(getContext(), innerPadding);
+        mInnerPadding = dip2px(getContext(), innerPadding);
         int mInnerRadius = mRadius - mOuterSize / 2 - mInnerPadding;
         rectInner = new RectF(-mInnerRadius, -mInnerRadius, mInnerRadius, mInnerRadius);
         invalidate();
@@ -499,7 +499,7 @@ public class CircleProgressView extends ProgressBar {
     }
 
     public void setOuterSize(int outerSize) {
-        mOuterSize = WidgetUtils.dip2px(getContext(), outerSize);
+        mOuterSize = dip2px(getContext(), outerSize);
         invalidate();
     }
 
@@ -591,4 +591,28 @@ public class CircleProgressView extends ProgressBar {
         initPaint();
         super.invalidate();
     }
+
+
+    // 将sp值转换为px值
+    private int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 把密度转换为像素
+     */
+    private int dip2px(Context context, float px) {
+        final float scale = getScreenDensity(context);
+        return (int) (px * scale + 0.5);
+    }
+
+
+    /**
+     * 得到设备的密度
+     */
+    private float getScreenDensity(Context context) {
+        return context.getResources().getDisplayMetrics().density;
+    }
+
 }

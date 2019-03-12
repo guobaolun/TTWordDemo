@@ -60,7 +60,7 @@ public class BigImageBaseActivity extends BaseActivity {
     }
 
     private void initData() {
-        mTextView.setText((mPosition + 1) + "/" + mImageInfoList.size());
+        mTextView.setText(String.valueOf((mPosition + 1) + "/" + mImageInfoList.size()));
 
         mPagerAdapter = new MyPagerAdapter();
         mViewPager.setAdapter(mPagerAdapter);
@@ -228,7 +228,7 @@ public class BigImageBaseActivity extends BaseActivity {
 
         @Override
         public void onPageSelected(int position) {
-            mTextView.setText((position + 1) + "/" + mImageInfoList.size());
+            mTextView.setText(String.valueOf((position + 1) + "/" + mImageInfoList.size()));
         }
 
         @Override

@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
@@ -95,7 +96,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
         });
     }
 
-    public void initiateDimens(int viewWidth) {
+    private void initiateDimens(int viewWidth) {
         if (viewWidth <= 0 || viewWidth == mScreenWidth) return;
 
         mScreenWidth = viewWidth;
@@ -138,7 +139,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         if (mScreenWidth <= 0) return;
 
         final int saveCount = canvas.save();
@@ -162,7 +163,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
         float skyScale;
         float scalePercentDelta = dragPercent - SCALE_START_PERCENT;
         if (scalePercentDelta > 0) {
-            /** Change skyScale between {@link #SKY_INITIAL_SCALE} and 1.0f depending on {@link #mPercent} */
+            /* Change skyScale between {@link #SKY_INITIAL_SCALE} and 1.0f depending on {@link #mPercent} */
             float scalePercent = scalePercentDelta / (1.0f - SCALE_START_PERCENT);
             skyScale = SKY_INITIAL_SCALE - (SKY_INITIAL_SCALE - 1.0f) * scalePercent;
         } else {
@@ -190,7 +191,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
         float townMoveOffset;
         float scalePercentDelta = dragPercent - SCALE_START_PERCENT;
         if (scalePercentDelta > 0) {
-            /**
+            /*
              * Change townScale between {@link #TOWN_INITIAL_SCALE} and {@link #TOWN_FINAL_SCALE} depending on {@link #mPercent}
              * Change townTopOffset between {@link #mTownInitialTopOffset} and {@link #mTownFinalTopOffset} depending on {@link #mPercent}
              */
@@ -231,7 +232,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
 
         float offsetX = mSunLeftOffset;
         float offsetY = mSunTopOffset
-                + (mTotalDragDistance / 2) * (1.0f - dragPercent) // Move the sun up
+                + (mTotalDragDistance >> 1) * (1.0f - dragPercent) // Move the sun up
                 - mTop; // Depending on Canvas position
 
         float scalePercentDelta = dragPercent - SCALE_START_PERCENT;
@@ -260,16 +261,16 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
         canvas.drawBitmap(mSun, matrix, null);
     }
 
-    public void setPercent(float percent) {
+    private void setPercent(float percent) {
         mPercent = percent;
     }
 
-    public void setRotate(float rotate) {
+    private void setRotate(float rotate) {
         mRotate = rotate;
         invalidateSelf();
     }
 
-    public void resetOriginals() {
+    private void resetOriginals() {
         setPercent(0);
         setRotate(0);
     }
@@ -331,7 +332,7 @@ public class SunRefreshDrawable extends BaseRefreshDrawable implements Animatabl
         mAnimation.setDuration(ANIMATION_DURATION);
     }
 
-    protected int dp2px(int dp) {
+    private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getContext().getResources().getDisplayMetrics());
     }
 

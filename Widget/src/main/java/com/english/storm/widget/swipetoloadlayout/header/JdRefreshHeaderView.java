@@ -19,13 +19,9 @@ public class JdRefreshHeaderView extends RelativeLayout implements SwipeTrigger,
 
     private ImageView ivSpeed;
 
-    private ImageView ivRefresh;
-
     private AnimationDrawable mAnimDrawable;
 
     private Animation mTwinkleAnim;
-
-    private int mTriggerOffset;
 
 
     public JdRefreshHeaderView(Context context) {
@@ -38,14 +34,13 @@ public class JdRefreshHeaderView extends RelativeLayout implements SwipeTrigger,
 
     public JdRefreshHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mTriggerOffset = context.getResources().getDimensionPixelOffset(R.dimen.refresh_header_height_jd);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ivRefresh = (ImageView) findViewById(R.id.ivRefresh);
-        ivSpeed = (ImageView) findViewById(R.id.ivSpeed);
+        ImageView ivRefresh = findViewById(R.id.ivRefresh);
+        ivSpeed = findViewById(R.id.ivSpeed);
         mAnimDrawable = (AnimationDrawable) ivRefresh.getBackground();
         mTwinkleAnim = AnimationUtils.loadAnimation(getContext(), R.anim.twinkle);
     }
@@ -54,7 +49,7 @@ public class JdRefreshHeaderView extends RelativeLayout implements SwipeTrigger,
     public void onRefresh() {
         ivSpeed.setVisibility(VISIBLE);
         ivSpeed.startAnimation(mTwinkleAnim);
-        if (!mAnimDrawable.isRunning()){
+        if (!mAnimDrawable.isRunning()) {
             mAnimDrawable.start();
         }
     }
@@ -71,7 +66,7 @@ public class JdRefreshHeaderView extends RelativeLayout implements SwipeTrigger,
 
     @Override
     public void onRelease() {
-        if (!mAnimDrawable.isRunning()){
+        if (!mAnimDrawable.isRunning()) {
             mAnimDrawable.start();
         }
     }

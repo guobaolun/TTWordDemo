@@ -1,1 +1,1 @@
-include ':AppTTWord', ':Common', ':Glide', ':Widget', ':AutoScrollViewpager', ':DialogManager', ':PhotoManager'
+include ':AppTTWord', ':Common', ':Glide', ':Widget', ':AutoScrollViewpager', ':PhotoManager'

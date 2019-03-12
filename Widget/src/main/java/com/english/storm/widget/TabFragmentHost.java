@@ -75,12 +75,10 @@ public class TabFragmentHost extends TabHost implements TabHost.OnTabChangeListe
             out.writeString(curTab);
         }
 
-        @Override
-        public String toString() {
-            return "FragmentTabHost.SavedState{"
-                    + Integer.toHexString(System.identityHashCode(this))
-                    + " curTab=" + curTab + "}";
-        }
+//        @Override
+//        public String toString() {
+//            return "FragmentTabHost.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " curTab=" + curTab + "}";
+//        }
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {
@@ -178,7 +176,7 @@ public class TabFragmentHost extends TabHost implements TabHost.OnTabChangeListe
 
     private void ensureContent() {
         if (mRealTabContent == null) {
-            mRealTabContent = (FrameLayout) findViewById(mContainerId);
+            mRealTabContent = findViewById(mContainerId);
             if (mRealTabContent == null) {
                 throw new IllegalStateException(
                         "No tab content FrameLayout found for id " + mContainerId);

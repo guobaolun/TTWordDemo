@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 
 /**
  * Created by aspsine on 15/9/11.
@@ -14,7 +15,7 @@ public class RingProgressDrawable extends ProgressDrawable {
     /**
      * in dp
      */
-    private static final int DEFAULT_BORDER_WIDTH = 3;
+    private int DEFAULT_BORDER_WIDTH = 3;
 
     private static final int DEFAULT_START_ANGLE = 270;
 
@@ -34,7 +35,6 @@ public class RingProgressDrawable extends ProgressDrawable {
 
     private int mColorIndex;
 
-    private float mPercent;
 
 
     public RingProgressDrawable(Context context) {
@@ -103,12 +103,12 @@ public class RingProgressDrawable extends ProgressDrawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         canvas.save();
-        canvas.rotate(mDegrees, canvas.getWidth() / 2, canvas.getHeight() / 2);
+        canvas.rotate(mDegrees, getBounds().width() >> 1, getBounds().height() >> 1);
 
         mPath.reset();
-        float d = Math.min(canvas.getWidth(), canvas.getHeight());
+        float d = Math.min(getBounds().width(), getBounds().height());
         float left = dp2px(DEFAULT_BORDER_WIDTH);
         float top = dp2px(DEFAULT_BORDER_WIDTH);
         float right = (d - dp2px(DEFAULT_BORDER_WIDTH));

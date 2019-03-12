@@ -45,19 +45,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.english.storm.wheelview.WheelView
+        <com.english.storm.widget.wheelview.WheelView
             android:id="@+id/province_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.english.storm.wheelview.WheelView
+        <com.english.storm.widget.wheelview.WheelView
             android:id="@+id/city_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.english.storm.wheelview.WheelView
+        <com.english.storm.widget.wheelview.WheelView
             android:id="@+id/area_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"

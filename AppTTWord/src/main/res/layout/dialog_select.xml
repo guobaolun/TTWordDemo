@@ -46,7 +46,7 @@
         android:orientation="horizontal">
 
 
-        <com.english.storm.wheelview.WheelView
+        <com.english.storm.widget.wheelview.WheelView
             android:id="@+id/wheel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

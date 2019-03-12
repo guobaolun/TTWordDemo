@@ -35,9 +35,6 @@ public class CirclePercentView extends View {
     private float x;
     private float y;
 
-    //要画的弧度
-    private int mEndAngle;
-
     //小圆的颜色
     private int mSmallColor;
     //大圆颜色
@@ -56,13 +53,21 @@ public class CirclePercentView extends View {
 
     public CirclePercentView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CirclePercentView, defStyleAttr, 0);
-        mStripeWidth = a.getDimension(R.styleable.CirclePercentView_stripeWidth, dpToPx(30, context));
-        mCurPercent = a.getInteger(R.styleable.CirclePercentView_percent, 0);
-        mSmallColor = a.getColor(R.styleable.CirclePercentView_smallColor, 0xffafb4db);
-        mBigColor = a.getColor(R.styleable.CirclePercentView_bigColor, 0xff6950a1);
-        mCenterTextSize = a.getDimensionPixelSize(R.styleable.CirclePercentView_centerTextSize, spToPx(20, context));
-        mRadius = a.getDimensionPixelSize(R.styleable.CirclePercentView_pradius, dpToPx(30, context));
+
+
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CirclePercentView, defStyleAttr, 0);
+        try {
+            mStripeWidth = typedArray.getDimension(R.styleable.CirclePercentView_stripeWidth, dpToPx(30, context));
+            mCurPercent = typedArray.getInteger(R.styleable.CirclePercentView_percent, 0);
+            mSmallColor = typedArray.getColor(R.styleable.CirclePercentView_smallColor, 0xffafb4db);
+            mBigColor = typedArray.getColor(R.styleable.CirclePercentView_bigColor, 0xff6950a1);
+            mCenterTextSize = typedArray.getDimensionPixelSize(R.styleable.CirclePercentView_centerTextSize, spToPx(20, context));
+            mRadius = typedArray.getDimensionPixelSize(R.styleable.CirclePercentView_pradius, dpToPx(30, context));
+        }finally {
+            typedArray.recycle();
+        }
+
     }
 
     @Override
@@ -75,9 +80,9 @@ public class CirclePercentView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
-            mRadius = widthSize / 2;
-            x = widthSize / 2;
-            y = heightSize / 2;
+            mRadius = widthSize >> 1;
+            x = widthSize >> 1;
+            y = heightSize >> 1;
             mWidth = widthSize;
             mHeight = heightSize;
         }
@@ -93,49 +98,45 @@ public class CirclePercentView extends View {
         setMeasuredDimension(mWidth, mHeight);
     }
 
+    Paint bigCirclePaint = new Paint();
+    Paint sectorPaint = new Paint();
+    RectF rect = new RectF(0, 0, mWidth, mHeight);
+    Paint smallCirclePaint = new Paint();
+    Paint mPaint = new Paint();
+    Rect bounds = new Rect();
+
     @Override
     protected void onDraw(Canvas canvas) {
-
-
-        mEndAngle = (int) (mCurPercent * 3.6);
+        //要画的弧度
+        int mEndAngle = (int) (mCurPercent * 3.6);
         //绘制大圆
-        Paint bigCirclePaint = new Paint();
         bigCirclePaint.setAntiAlias(true);
         bigCirclePaint.setColor(mBigColor);
-
-
         canvas.drawCircle(x, y, mRadius, bigCirclePaint);
-
-
         //饼状图
-        Paint sectorPaint = new Paint();
         sectorPaint.setColor(mSmallColor);
         sectorPaint.setAntiAlias(true);
-        RectF rect = new RectF(0, 0, mWidth, mHeight);
+        rect.right = mWidth;
+        rect.bottom = mHeight;
 
         canvas.drawArc(rect, 270, mEndAngle, true, sectorPaint);
 
-
         //绘制小圆,颜色透明
-        Paint smallCirclePaint = new Paint();
         smallCirclePaint.setAntiAlias(true);
         smallCirclePaint.setColor(mBigColor);
         canvas.drawCircle(x, y, mRadius - mStripeWidth, smallCirclePaint);
 
-
         //绘制文本
         String text = mCurPercent + "%";
 
-        Paint mPaint = new Paint();
         mPaint.setStrokeWidth(3);
         mPaint.setTextSize(mCenterTextSize);
         mPaint.setColor(Color.WHITE);
         mPaint.setTextAlign(Paint.Align.LEFT);
-        Rect bounds = new Rect();
         mPaint.getTextBounds(text, 0, text.length(), bounds);
         Paint.FontMetricsInt fontMetrics = mPaint.getFontMetricsInt();
         int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-        canvas.drawText(text,getMeasuredWidth() / 2 - bounds.width() / 2, baseline, mPaint);
+        canvas.drawText(text, (getMeasuredWidth() >> 1) - (bounds.width() >> 1), baseline, mPaint);
 
 
     }
@@ -145,10 +146,7 @@ public class CirclePercentView extends View {
         if (percent > 100) {
             throw new IllegalArgumentException("percent must less than 100!");
         }
-
         setCurPercent(percent);
-
-
     }
 
     //内部设置百分比 用于动画效果
@@ -162,7 +160,7 @@ public class CirclePercentView extends View {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
-    public static int spToPx(int sp,Context context) {
+    public static int spToPx(int sp, Context context) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
     }
 

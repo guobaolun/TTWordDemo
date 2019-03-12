@@ -15,13 +15,11 @@ import android.support.annotation.NonNull;
  */
 public abstract class BaseRefreshDrawable extends Drawable implements Drawable.Callback, Animatable {
 
-    private boolean mEndOfRefreshing;
-
     private Context mContext;
 
     private Handler mHandler;
 
-    public BaseRefreshDrawable(Context context) {
+    BaseRefreshDrawable(Context context) {
         mContext = context;
     }
 
@@ -42,7 +40,7 @@ public abstract class BaseRefreshDrawable extends Drawable implements Drawable.C
     }
 
     @Override
-    public void scheduleDrawable(Drawable who, Runnable what, long when) {
+    public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
         final Callback callback = getCallback();
         if (callback != null) {
             callback.scheduleDrawable(this, what, when);
@@ -50,7 +48,7 @@ public abstract class BaseRefreshDrawable extends Drawable implements Drawable.C
     }
 
     @Override
-    public void unscheduleDrawable(Drawable who, Runnable what) {
+    public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
         final Callback callback = getCallback();
         if (callback != null) {
             callback.unscheduleDrawable(this, what);
@@ -72,27 +70,18 @@ public abstract class BaseRefreshDrawable extends Drawable implements Drawable.C
 
     }
 
-    /**
-     * Our animation depend on type of current work of refreshing.
-     * We should to do different things when it's end of refreshing
-     *
-     * @param endOfRefreshing - we will check current state of refresh with this
-     */
-    public void setEndOfRefreshing(boolean endOfRefreshing) {
-        mEndOfRefreshing = endOfRefreshing;
-    }
 
     protected void post(Runnable runnable) {
-        postDelayed(runnable, 0);
+        postDelayed(runnable);
     }
 
-    protected void postDelayed(Runnable runnable, int delayMillis) {
+    private void postDelayed(Runnable runnable) {
         if (mHandler == null) {
             synchronized (BaseRefreshDrawable.class) {
                 mHandler = new Handler(Looper.getMainLooper());
             }
         }
-        mHandler.postDelayed(runnable, delayMillis);
+        mHandler.postDelayed(runnable, 0);
 
     }
 }

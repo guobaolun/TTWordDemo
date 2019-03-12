@@ -11,15 +11,15 @@ class DefaultImageCreator implements NineGridView.ImageCreator {
     private DefaultImageCreator(){
     }
 
-    public static DefaultImageCreator getInstance(){
-        if(defaultImageCreator == null){
+//    public static DefaultImageCreator getInstance(){
+//        if(defaultImageCreator == null){
 //            synchronized (GlideUtils.class){
 //                if(defaultImageCreator == null)
 //                    defaultImageCreator = new DefaultImageCreator();
 //            }
-        }
-        return defaultImageCreator;
-    }
+//        }
+//        return defaultImageCreator;
+//    }
 
     @Override
     public ImageView createImageView(Context context) {
@@ -32,4 +32,6 @@ class DefaultImageCreator implements NineGridView.ImageCreator {
     public void loadImage(Context context, String url, ImageView imageView) {
 //        GlideUtils.loadAsBitmap(context,url,imageView,R.color.gray, R.color.gray);
     }
+
+
 }

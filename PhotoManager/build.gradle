@@ -33,7 +33,6 @@ android {
 dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 
-    implementation project(':DialogManager')
     implementation project(':Widget')
     implementation project(':Common')
     implementation project(':Glide')

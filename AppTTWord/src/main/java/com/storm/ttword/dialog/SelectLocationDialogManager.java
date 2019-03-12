@@ -48,9 +48,9 @@ public class SelectLocationDialogManager implements View.OnClickListener {
         mProvinceData = mAddressDao.queryProvince();
 
         View view = View.inflate(activity, R.layout.dialog_select_location, null);
-        cancel_tv = (TextView) view.findViewById(R.id.cancel_tv);
+        cancel_tv =  view.findViewById(R.id.cancel_tv);
         cancel_tv.setOnClickListener(this);
-        ok_tv = (TextView) view.findViewById(R.id.ok_tv);
+        ok_tv =  view.findViewById(R.id.ok_tv);
         ok_tv.setOnClickListener(this);
 
         MyOnWheelChangedListener listener = new MyOnWheelChangedListener();

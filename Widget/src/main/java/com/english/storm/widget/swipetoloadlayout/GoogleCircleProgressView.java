@@ -58,7 +58,6 @@ public class GoogleCircleProgressView extends AppCompatImageView {
     private boolean mIfDrawText;
     private boolean mShowArrow;
     private MaterialProgressDrawable mProgressDrawable;
-    private ShapeDrawable mBgCircle;
     private boolean mCircleBackgroundEnabled;
     private int[] mColors = new int[]{Color.BLACK};
 
@@ -140,6 +139,10 @@ public class GoogleCircleProgressView extends AppCompatImageView {
         }
     }
 
+    private OvalShape ovalShape = new OvalShape();
+    private OvalShadow ovalShadow = new OvalShadow();
+    private ShapeDrawable mBgCircle = new ShapeDrawable(ovalShape);
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -154,15 +157,14 @@ public class GoogleCircleProgressView extends AppCompatImageView {
             mShadowRadius = (int) (density * SHADOW_RADIUS);
 
             if (elevationSupported()) {
-                mBgCircle = new ShapeDrawable(new OvalShape());
+                mBgCircle.setShape(ovalShape);
                 ViewCompat.setElevation(this, SHADOW_ELEVATION * density);
             } else {
-                OvalShape oval = new OvalShadow(mShadowRadius, mDiameter - mShadowRadius * 2);
-                mBgCircle = new ShapeDrawable(oval);
+                ovalShadow.setRadialGradient(mShadowRadius, mDiameter - mShadowRadius * 2);
+                mBgCircle.setShape(ovalShadow);
                 ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE, mBgCircle.getPaint());
-                mBgCircle.getPaint().setShadowLayer(mShadowRadius, shadowXOffset, shadowYOffset,
-                        KEY_SHADOW_COLOR);
-                final int padding = (int) mShadowRadius;
+                mBgCircle.getPaint().setShadowLayer(mShadowRadius, shadowXOffset, shadowYOffset, KEY_SHADOW_COLOR);
+                final int padding = mShadowRadius;
                 // set padding so the inner image sits correctly within the shadow.
                 setPadding(padding, padding, padding, padding);
             }
@@ -172,7 +174,7 @@ public class GoogleCircleProgressView extends AppCompatImageView {
         mProgressDrawable.setBackgroundColor(mBackGroundColor);
         mProgressDrawable.setColorSchemeColors(mColors);
         mProgressDrawable.setSizeParameters(mDiameter, mDiameter,
-                mInnerRadius <= 0 ? (mDiameter - mProgressStokeWidth * 2) / 4 : mInnerRadius,
+                mInnerRadius <= 0 ? (mDiameter - mProgressStokeWidth * 2) >> 2 : mInnerRadius,
                 mProgressStokeWidth,
                 mArrowWidth < 0 ? mProgressStokeWidth * 4 : mArrowWidth,
                 mArrowHeight < 0 ? mProgressStokeWidth * 2 : mArrowHeight);
@@ -248,7 +250,7 @@ public class GoogleCircleProgressView extends AppCompatImageView {
      * The first color will also be the color of the bar that grows in response
      * to a user swipe gesture.
      *
-     * @param colorResIds
+     * @param colorResIds colorResIds
      */
     public void setColorSchemeResources(int... colorResIds) {
         final Resources res = getResources();
@@ -264,7 +266,7 @@ public class GoogleCircleProgressView extends AppCompatImageView {
      * color will also be the color of the bar that grows in response to a user
      * swipe gesture.
      *
-     * @param colors
+     * @param colors colors
      */
     public void setColorSchemeColors(int... colors) {
         mColors = colors;
@@ -310,24 +312,24 @@ public class GoogleCircleProgressView extends AppCompatImageView {
         }
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return mProgressDrawable.isRunning();
     }
 
-    public void start(){
-        if (!mProgressDrawable.isRunning()){
+    public void start() {
+        if (!mProgressDrawable.isRunning()) {
             mProgressDrawable.start();
         }
     }
 
-    public void stop(){
-        if (mProgressDrawable.isRunning()){
+    public void stop() {
+        if (mProgressDrawable.isRunning()) {
             mProgressDrawable.stop();
         }
     }
 
-    public void setProgressRotation(float rotation){
-        if (mProgressDrawable.isRunning()){
+    public void setProgressRotation(float rotation) {
+        if (mProgressDrawable.isRunning()) {
             stop();
         }
         mProgressDrawable.showArrow(true);
@@ -335,7 +337,7 @@ public class GoogleCircleProgressView extends AppCompatImageView {
         mProgressDrawable.setProgressRotation(rotation);
     }
 
-    public void setStartEndTrim(float start, float end){
+    public void setStartEndTrim(float start, float end) {
         mProgressDrawable.setStartEndTrim(start, end);
     }
 
@@ -394,25 +396,28 @@ public class GoogleCircleProgressView extends AppCompatImageView {
         private Paint mShadowPaint;
         private int mCircleDiameter;
 
-        public OvalShadow(int shadowRadius, int circleDiameter) {
+
+
+        private OvalShadow() {
             super();
+        }
+
+        private void setRadialGradient(int shadowRadius,int circleDiameter) {
             mShadowPaint = new Paint();
             mShadowRadius = shadowRadius;
             mCircleDiameter = circleDiameter;
-            mRadialGradient = new RadialGradient(mCircleDiameter / 2, mCircleDiameter / 2,
-                    mShadowRadius, new int[]{
-                    FILL_SHADOW_COLOR, Color.TRANSPARENT
-            }, null, Shader.TileMode.CLAMP);
+            mRadialGradient = new RadialGradient(mCircleDiameter >> 1, mCircleDiameter >> 1, mShadowRadius, new int[]{FILL_SHADOW_COLOR, Color.TRANSPARENT}, null, Shader.TileMode.CLAMP);
             mShadowPaint.setShader(mRadialGradient);
         }
+
 
         @Override
         public void draw(Canvas canvas, Paint paint) {
             final int viewWidth = GoogleCircleProgressView.this.getWidth();
             final int viewHeight = GoogleCircleProgressView.this.getHeight();
-            canvas.drawCircle(viewWidth / 2, viewHeight / 2, (mCircleDiameter / 2 + mShadowRadius),
+            canvas.drawCircle(viewWidth >> 1, viewHeight >> 1, ((mCircleDiameter >> 1) + mShadowRadius),
                     mShadowPaint);
-            canvas.drawCircle(viewWidth / 2, viewHeight / 2, (mCircleDiameter / 2), paint);
+            canvas.drawCircle(viewWidth >> 1, viewHeight >> 1, (mCircleDiameter >> 1), paint);
         }
     }
 }

@@ -1,11 +1,12 @@
 package com.english.storm.widget;
 
+import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
 public class FollowGridView extends GridView {
 
-	private boolean isOnClickble = true;
+	private boolean isOnClickable = true;
 
 	public FollowGridView(android.content.Context context,
 			android.util.AttributeSet attrs) {
@@ -23,13 +24,14 @@ public class FollowGridView extends GridView {
 	}
 
 
-	public void setOnClickble(boolean isOnClickble) {
-		this.isOnClickble = isOnClickble;
+	public void setOnClickable(boolean isOnClickable) {
+		this.isOnClickable = isOnClickable;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		if (isOnClickble) {
+		if (isOnClickable) {
 			return super.onTouchEvent(ev);
 		}else {
 			return false;

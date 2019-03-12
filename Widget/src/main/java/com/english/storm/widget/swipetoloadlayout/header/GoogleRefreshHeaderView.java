@@ -15,7 +15,6 @@ import com.english.storm.widget.swipetoloadlayout.drawable.google.RingProgressDr
  * Created by aspsine on 15/9/10.
  */
 public class GoogleRefreshHeaderView extends FrameLayout implements SwipeTrigger, SwipeRefreshTrigger {
-    private ImageView ivRefresh;
 
     private int mTriggerOffset;
 
@@ -44,8 +43,8 @@ public class GoogleRefreshHeaderView extends FrameLayout implements SwipeTrigger
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ivRefresh = (ImageView) findViewById(R.id.ivRefresh);
-        ivRefresh.setBackgroundDrawable(ringProgressDrawable);
+        ImageView ivRefresh = findViewById(R.id.ivRefresh);
+        ivRefresh.setBackground(ringProgressDrawable);
     }
 
     @Override

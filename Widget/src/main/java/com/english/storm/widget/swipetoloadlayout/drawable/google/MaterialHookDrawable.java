@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by aspsine on 15/9/10.
@@ -11,7 +12,7 @@ import android.graphics.drawable.Drawable;
 public class MaterialHookDrawable extends Drawable {
     
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
 
     }
 

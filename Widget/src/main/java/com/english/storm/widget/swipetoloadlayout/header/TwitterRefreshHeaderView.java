@@ -14,7 +14,6 @@ import com.english.storm.widget.R;
 
 /**
  * @author Aspsine
- * @date 2015/9/9
  */
 public class TwitterRefreshHeaderView extends SwipeRefreshHeaderLayout {
 

@@ -107,7 +107,7 @@ public class CropPortraitActivity extends BaseActivity implements View.OnClickLi
         //setImageToCropBoundsAnimDuration  //设置图片在切换比例时的动画
         mGestureCropImageView.setImageToWrapCropBoundsAnimDuration(500);
         //setFreeStyleCropEnabled       //设置自由缩放裁剪模式
-        mOverlayView.setFreestyleCropEnabled(false);
+        mOverlayView.setFreestyleCropMode(OverlayView.FREESTYLE_CROP_MODE_DISABLE);
         //setDimmedLayerColor           //设置暗图层颜色
         mOverlayView.setDimmedColor(ContextCompat.getColor(getApplicationContext(), R.color.crop_color_dimmed));
         //setCircleDimmedLayer          //设置圆圈暗层

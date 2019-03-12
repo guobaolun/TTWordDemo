@@ -25,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.english.storm.dialog.BottomSlideDialog;
 import com.english.storm.photo.PhotoConstants;
 import com.english.storm.photo.R;
 import com.english.storm.photo.adapter.SelectBigImageAdapter;
@@ -33,6 +32,7 @@ import com.english.storm.photo.adapter.SelectManyPhotoGridAdapter;
 import com.english.storm.photo.entity.SelectImage;
 import com.english.storm.photo.listener.SelectPhotoClickListener;
 import com.storm.common.activity.BaseActivity;
+import com.storm.common.dialog.BottomSlideDialog;
 import com.storm.common.manager.PermissionManager;
 
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class SelectManyPhotoActivity extends BaseActivity implements View.OnClic
         gridview.setOnItemClickListener(mItemClickListener);
 
         if (mSelectImgList != null) {
-            ok_bt.setText("确定(" + mSelectImgList.size() + ")");
+            ok_bt.setText(String.valueOf("确定(" + mSelectImgList.size() + ")"));
         }
     }
 

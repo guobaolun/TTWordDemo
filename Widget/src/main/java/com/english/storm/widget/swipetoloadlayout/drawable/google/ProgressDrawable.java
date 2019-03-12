@@ -18,7 +18,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
      * smooth animation requires 60 frame in 1000ms
      * We can know fresh 1 frame requires 1000/60 ms
      */
-    public static final int DELAY = 1000 / 60;
+    static final int DELAY = 1000 / 60;
 
     private final Context mContext;
 
@@ -29,7 +29,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
     private int[] mColors;
 
 
-    public ProgressDrawable(Context context) {
+    ProgressDrawable(Context context) {
         mContext = context;
     }
 
@@ -37,7 +37,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
         mColors = colors;
     }
 
-    public int[] getColors() {
+    int[] getColors() {
         return mColors;
     }
 
@@ -47,7 +47,7 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
         setPercent(progress, false);
     }
 
-    public void setRunning(boolean running) {
+    void setRunning(boolean running) {
         this.mRunning = running;
     }
 
@@ -75,11 +75,11 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
         return mContext;
     }
 
-    protected void post(Runnable runnable) {
+    void post(Runnable runnable) {
         postDelayed(runnable, 0);
     }
 
-    protected void postDelayed(Runnable runnable, int delayMillis) {
+    void postDelayed(Runnable runnable, int delayMillis) {
         if (mHandler == null) {
             synchronized (ProgressDrawable.class) {
                 mHandler = new Handler(Looper.getMainLooper());
@@ -89,14 +89,14 @@ public abstract class ProgressDrawable extends Drawable implements Animatable {
 
     }
 
-    protected void removeCallBacks(Runnable runnable) {
+    void removeCallBacks(Runnable runnable) {
         if (mHandler != null) {
             mHandler.removeCallbacks(runnable);
         }
     }
 
 
-    protected int dp2px(int dp) {
+    int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getContext().getResources().getDisplayMetrics());
     }
 }

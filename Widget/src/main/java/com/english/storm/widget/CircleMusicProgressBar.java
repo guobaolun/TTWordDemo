@@ -28,14 +28,12 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
-    private static final int DEFAULT_ANIMATION_TIME = 800;
     private static final int DEFAULT_BORDER_WIDTH = 0;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
     private static final int DEFAULT_PROGRESS_COLOR = Color.BLUE;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
     private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
-    private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
 
@@ -54,7 +52,6 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
     private int mBitmapHeight;
     private float mInnrCircleDiammeter;
     private float mDrawableRadius;
-    private float mBorderRadius;
     private float mProgressValue = 0;
     private float mDuration = 100;
     private float mDegrees = 0;//旋转角度
@@ -65,7 +62,6 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
     private boolean mBorderOverlay;
     private boolean mDrawAntiClockwise;
     private boolean mDisableCircularTransformation;
-    private boolean animationState = true;
 
 
     public CircleMusicProgressBar(Context context) {
@@ -87,7 +83,7 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
         mBorderOverlay = a.getBoolean(R.styleable.CircleMusicProgressBar_border_overlay, DEFAULT_BORDER_OVERLAY);
         mDrawAntiClockwise = a.getBoolean(R.styleable.CircleMusicProgressBar_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
         mFillColor = a.getColor(R.styleable.CircleMusicProgressBar_fill_color, DEFAULT_FILL_COLOR);
-        mInnrCircleDiammeter = a.getFloat(R.styleable.CircleMusicProgressBar_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
+        mInnrCircleDiammeter = a.getFloat(R.styleable.CircleMusicProgressBar_centercircle_diammterer, 0.805f);
         mProgressColor = a.getColor(R.styleable.CircleMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
         mBaseStartAngle = a.getFloat(R.styleable.CircleMusicProgressBar_progress_startAngle,270);
 
@@ -179,19 +175,8 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
     }
 
     public void setValue(float newValue) {
-//        if (animationState) {
-//
-//            if (mValueAnimator.isRunning()) {
-//                mValueAnimator.cancel();
-//            }
-//
-//            mValueAnimator.setFloatValues(mProgressValue, newValue);
-//            mValueAnimator.start();
-//        } else {
             mProgressValue = newValue;
             invalidate();
-//        }
-
     }
 
 
@@ -217,14 +202,6 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
         setup();
     }
 
-    /**
-     * Change state of progress value animation. set it to 'false' if you don't want any animation
-     *
-     * @param state boolean state of progress animation. if set to false, no animation happen whenever value is changed
-     */
-    public void setProgressAnimationState(boolean state) {
-        animationState = state;
-    }
 
 //    /**
 //     * change interpolator of animation to getData more effect on animation
@@ -388,9 +365,7 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
     }
 
     private void applyColorFilter() {
-        if (mBitmapPaint != null) {
-            mBitmapPaint.setColorFilter(mColorFilter);
-        }
+        mBitmapPaint.setColorFilter(mColorFilter);
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
@@ -464,7 +439,6 @@ public class CircleMusicProgressBar extends android.support.v7.widget.AppCompatI
         mBitmapWidth = mBitmap.getWidth();
 
         mBorderRect.set(calculateBounds());
-        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f);
 
         mDrawableRect.set(mBorderRect);
         if (!mBorderOverlay && mBorderWidth > 0) {

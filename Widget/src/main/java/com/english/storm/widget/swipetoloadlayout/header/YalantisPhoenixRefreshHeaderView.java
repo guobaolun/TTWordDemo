@@ -1,14 +1,15 @@
 package com.english.storm.widget.swipetoloadlayout.header;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.aspsine.swipetoloadlayout.SwipeRefreshTrigger;
 import com.aspsine.swipetoloadlayout.SwipeTrigger;
 import com.english.storm.widget.R;
-import com.english.storm.widget.swipetoloadlayout.DensityUtil;
 import com.english.storm.widget.swipetoloadlayout.drawable.yalantis.BaseRefreshDrawable;
 import com.english.storm.widget.swipetoloadlayout.drawable.yalantis.SunRefreshDrawable;
 
@@ -16,8 +17,6 @@ import com.english.storm.widget.swipetoloadlayout.drawable.yalantis.SunRefreshDr
  * Created by Aspsine on 2015/11/5.
  */
 public class YalantisPhoenixRefreshHeaderView extends FrameLayout implements SwipeTrigger, SwipeRefreshTrigger {
-
-    private ImageView ivRefresh;
 
     private BaseRefreshDrawable mDrawable;
 
@@ -39,9 +38,9 @@ public class YalantisPhoenixRefreshHeaderView extends FrameLayout implements Swi
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ivRefresh = (ImageView) findViewById(R.id.ivRefresh);
-        mDrawable = new SunRefreshDrawable(getContext(), this, mTriggerOffset, DensityUtil.getScreenWidth(getContext()));
-        ivRefresh.setBackgroundDrawable(mDrawable);
+        ImageView ivRefresh =  findViewById(R.id.ivRefresh);
+        mDrawable = new SunRefreshDrawable(getContext(), this, mTriggerOffset, getScreenWidth(getContext()));
+        ivRefresh.setBackground(mDrawable);
     }
 
 
@@ -83,4 +82,13 @@ public class YalantisPhoenixRefreshHeaderView extends FrameLayout implements Swi
     public void onReset() {
         mDrawable.stop();
     }
+
+
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+    }
+
+
 }
